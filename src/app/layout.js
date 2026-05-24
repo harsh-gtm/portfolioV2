@@ -2,7 +2,7 @@ import LenisProvider from "@/components/LenisProvider";
 import "./globals.css";
 
 export const metadata = {
-  title: "UnSospiro",
+  title: "HG",
   description: "A Personal Website",
 };
 
