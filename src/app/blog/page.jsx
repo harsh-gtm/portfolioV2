@@ -8,6 +8,45 @@ import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./shaders";
 import { content } from "./data";
 
+// ─── Color utility ────────────────────────────────────────────────────────────
+// Deterministic HSL color seeded by a string (title).
+// Same title always produces the same color — no flickering on re-render.
+function seededColor(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const h = Math.abs(hash) % 360;
+  // Slightly desaturated, mid-brightness — works well as a full-bleed bg
+  return { h, s: 52, l: 38 };
+}
+
+// Convert HSL → [r, g, b] 0-255 for DataTexture
+function hslToRgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [
+    Math.round(f(0) * 255),
+    Math.round(f(8) * 255),
+    Math.round(f(4) * 255),
+  ];
+}
+
+// Build a 1×1 THREE.DataTexture from a slide entry.
+// If slide.image is provided, returns null (caller loads a real texture instead).
+function makeColorTexture(slide) {
+  const { h, s, l } = seededColor(slide.title);
+  const [r, g, b] = hslToRgb(h, s, l);
+  const data = new Uint8Array([r, g, b, 255]);
+  const tex = new THREE.DataTexture(data, 1, 1, THREE.RGBAFormat);
+  tex.needsUpdate = true;
+  return tex;
+}
+
 export default function Sectiontwo() {
   const sliderRef = useRef(null);
 
@@ -17,7 +56,7 @@ export default function Sectiontwo() {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    // --- TEXT SPLITTING & ANIMATION HELPERS ---
+    // ── Text helpers ────────────────────────────────────────────────────────
     const splitTitle = (container) => {
       if (!container) return null;
       const heading = container.querySelector(".slide-title h1");
@@ -74,12 +113,7 @@ export default function Sectiontwo() {
       }
       tl.to(
         lines,
-        {
-          y: "-100%",
-          duration: 0.6,
-          stagger: 0.02,
-          ease: "power2.inOut",
-        },
+        { y: "-100%", duration: 0.6, stagger: 0.02, ease: "power2.inOut" },
         0.1,
       );
       return tl;
@@ -99,18 +133,13 @@ export default function Sectiontwo() {
         ease: "power2.inOut",
       }).to(
         lines,
-        {
-          y: "0%",
-          duration: 0.5,
-          stagger: 0.05,
-          ease: "power2.inOut",
-        },
+        { y: "0%", duration: 0.5, stagger: 0.05, ease: "power2.inOut" },
         0.1,
       );
       return tl;
     };
 
-    // --- STATE & THREE.JS SETUP ---
+    // ── State & Three.js setup ───────────────────────────────────────────────
     let currentIndex = 0;
     const slides = content;
     let isTransitioning = false;
@@ -126,7 +155,9 @@ export default function Sectiontwo() {
     renderer.setClearColor(0x000000, 0);
     slider.prepend(renderer.domElement);
 
+    // textures[i] is either a loaded THREE.Texture (image) or a DataTexture (color)
     const textures = [];
+
     const rippleConfig = {
       waveFreq: 25.0,
       wavePow: 0.035,
@@ -141,20 +172,25 @@ export default function Sectiontwo() {
 
     let uniforms;
     let material;
-    let plane;
 
     async function init() {
       const textureLoader = new THREE.TextureLoader();
 
+      // Load image texture OR create a 1×1 color DataTexture
       for (const slide of slides) {
-        const texture = await new Promise((resolve) =>
-          textureLoader.load(slide.image, resolve),
-        );
-        texture.minFilter = THREE.LinearFilter;
-        texture.magFilter = THREE.LinearFilter;
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-        textures.push(texture);
+        if (slide.image) {
+          const texture = await new Promise((resolve) =>
+            textureLoader.load(slide.image, resolve),
+          );
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.wrapS = THREE.ClampToEdgeWrapping;
+          texture.wrapT = THREE.ClampToEdgeWrapping;
+          textures.push(texture);
+        } else {
+          // No image → deterministic solid-color texture
+          textures.push(makeColorTexture(slide));
+        }
       }
 
       uniforms = {
@@ -170,6 +206,11 @@ export default function Sectiontwo() {
         uBoostStrength: { value: rippleConfig.boostStrength },
         uCrossfadeWidth: { value: rippleConfig.crossfadeWidth },
         uMobile: { value: window.innerWidth <= 1000 ? 1.0 : 0.0 },
+        // When 1.0 the shader should skip cover-fit math and just stretch the
+        // 1×1 color texture to fill — add this uniform if your shader supports
+        // it, otherwise the DataTexture already fills fine at any resolution.
+        uIsColorCurrent: { value: slides[0].image ? 0.0 : 1.0 },
+        uIsColorNext: { value: (slides[1] ?? slides[0]).image ? 0.0 : 1.0 },
       };
 
       material = new THREE.ShaderMaterial({
@@ -179,7 +220,7 @@ export default function Sectiontwo() {
         transparent: true,
       });
 
-      plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+      const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
       scene.add(plane);
 
       handleResize();
@@ -222,7 +263,6 @@ export default function Sectiontwo() {
           { y: "0%", duration: 0.8, stagger: 0.025, ease: "power2.out" },
         );
       }
-
       if (initialLines.length > 0) {
         gsap.fromTo(
           initialLines,
@@ -238,22 +278,18 @@ export default function Sectiontwo() {
       }
     }
 
-    // --- TWO-WAY SCROLL DETECTION ---
+    // ── Scroll ───────────────────────────────────────────────────────────────
     function handleScroll(e) {
       if (isTransitioning) return;
-      if (Math.abs(e.deltaY) < 15) return; // Discard minor trackpad/scroll wheel artifacts
+      if (Math.abs(e.deltaY) < 15) return;
 
       let targetIndex = currentIndex;
-
       if (e.deltaY > 0) {
-        // Scroll down -> Next Slide
         targetIndex = (currentIndex + 1) % slides.length;
       } else if (e.deltaY < 0) {
-        // Scroll up -> Previous Slide
         targetIndex = (currentIndex - 1 + slides.length) % slides.length;
       }
 
-      // Only transition if the index calculation points to a different slide
       if (targetIndex !== currentIndex) {
         e.preventDefault();
         runTransition(targetIndex);
@@ -269,15 +305,20 @@ export default function Sectiontwo() {
         rippleTween = null;
       }
 
-      const currentSlide = slider.querySelector(".slide-content");
-      const exitTimeline = animateTextOut(currentSlide);
-
-      // Pre-assign correct textures based on movement direction
+      // Assign textures — DataTexture or real image, same API either way
       uniforms.uTexCurrent.value = textures[currentIndex];
       uniforms.uTexNext.value = textures[nextIndex];
       uniforms.uProgress.value = 0.0;
 
+      // Tell the shader whether each slot is a flat color (optional — only
+      // needed if your fragment shader uses uIsColorCurrent / uIsColorNext
+      // to skip cover-fit UV math for 1×1 textures).
+      uniforms.uIsColorCurrent.value = slides[currentIndex].image ? 0.0 : 1.0;
+      uniforms.uIsColorNext.value = slides[nextIndex].image ? 0.0 : 1.0;
+
       let clickUnlocked = false;
+      const currentSlide = slider.querySelector(".slide-content");
+      const exitTimeline = animateTextOut(currentSlide);
 
       rippleTween = gsap.to(uniforms.uProgress, {
         value: rippleConfig.endValue,
@@ -293,9 +334,11 @@ export default function Sectiontwo() {
         },
         onComplete() {
           uniforms.uTexCurrent.value = textures[currentIndex];
+          uniforms.uIsColorCurrent.value = slides[currentIndex].image
+            ? 0.0
+            : 1.0;
           uniforms.uProgress.value = 0.0;
           rippleTween = null;
-
           if (!clickUnlocked) {
             currentIndex = nextIndex;
             isTransitioning = false;
@@ -305,13 +348,9 @@ export default function Sectiontwo() {
 
       exitTimeline.then(() => {
         if (currentSlide) currentSlide.remove();
-
         const nextSlide = buildSlideContent(slides[nextIndex]);
         slider.appendChild(nextSlide);
-
-        requestAnimationFrame(() => {
-          animateTextIn(nextSlide);
-        });
+        requestAnimationFrame(() => animateTextIn(nextSlide));
       });
     }
 
