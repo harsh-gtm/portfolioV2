@@ -7,6 +7,7 @@ import { SplitText } from "gsap/SplitText";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./shaders";
 import { content } from "./data";
+import Navbar from "@/components/Navbar/Navbar";
 
 // ─── Color utility ────────────────────────────────────────────────────────────
 // Deterministic HSL color seeded by a string (title).
@@ -370,15 +371,18 @@ export default function Sectiontwo() {
   }, []);
 
   return (
-    <div className="slider" ref={sliderRef}>
-      <div className="slide-content">
-        <div className="slide-title">
-          <h1>{content[0].title}</h1>
-        </div>
-        <div className="slide-description">
-          <p>{content[0].description}</p>
+    <>
+      <Navbar />
+      <div className="slider" ref={sliderRef}>
+        <div className="slide-content">
+          <div className="slide-title">
+            <h1>{content[0].title}</h1>
+          </div>
+          <div className="slide-description">
+            <p>{content[0].description}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

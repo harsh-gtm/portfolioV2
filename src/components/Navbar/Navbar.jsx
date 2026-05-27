@@ -1,30 +1,68 @@
-import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
-import styles from "./Navbar.module.css";
-
-const LiquidGlass = dynamic(() => import("liquid-glass-react"), {
-  ssr: false,
-});
+"use client";
+import React from "react";
+import "./Navbar.css";
+import { useTransitionRouter } from "next-view-transitions";
+import slideInOut from "../PageTransition/PageTransition";
 
 const Navbar = () => {
-  const [glassKey, setGlassKey] = useState(0);
+  const router = useTransitionRouter();
 
-  useEffect(() => {
-    const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
-    if (isFirefox) {
-      const id = setTimeout(() => setGlassKey((k) => k + 1), 50);
-      return () => clearTimeout(id);
-    }
-  }, []);
+  const prefetch = (path) => router.prefetch(path);
 
   return (
-    <nav className={styles.navbarWrap}>
-      <LiquidGlass key={glassKey} cornerRadius={19} padding="0">
-        <div className={styles.navbarContent}>
-          <h2 className={styles.logo}>NAV</h2>
-          {/* Add your links here */}
+    <nav className="nav">
+      <div className="home">
+        <div className="link">
+          <a
+            onMouseEnter={() => prefetch("/")}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/", { onTransitionReady: slideInOut });
+            }}
+            href="/"
+          >
+            Home
+          </a>
         </div>
-      </LiquidGlass>
+      </div>
+      <div className="links">
+        <div className="link">
+          <a
+            onMouseEnter={() => prefetch("/about")}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/about", { onTransitionReady: slideInOut });
+            }}
+            href="/about"
+          >
+            Who Am I?
+          </a>
+        </div>
+        <div className="link">
+          <a
+            onMouseEnter={() => prefetch("/projects")}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/projects", { onTransitionReady: slideInOut });
+            }}
+            href="/projects"
+          >
+            Projects
+          </a>
+        </div>
+        <div className="link">
+          <a
+            onMouseEnter={() => prefetch("/blog")}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/blog", { onTransitionReady: slideInOut });
+            }}
+            href="/blog"
+          >
+            Blog
+          </a>
+        </div>
+      </div>
     </nav>
   );
 };
