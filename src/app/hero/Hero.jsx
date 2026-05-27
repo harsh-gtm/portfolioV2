@@ -8,10 +8,12 @@ import { SplitText } from "gsap/SplitText";
 import { CustomEase } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import slideInOut from "../../components/PageTransition/PageTransition";
 
 import bgImage from "../../../public/bg.png";
 import innerLayer from "../../../public/innerLayer_v2.png";
 import outerLayer from "../../../public/OuterLayer.png";
+import { useTransitionRouter } from "next-view-transitions";
 
 const NAV_ITEMS = [
   {
@@ -34,7 +36,7 @@ const NAV_ITEMS = [
 ];
 
 export default function Hero({ onHoverChange }) {
-  const router = useRouter();
+  const router = useTransitionRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const progressValue = useRef({ value: 0 });
@@ -270,7 +272,10 @@ export default function Hero({ onHoverChange }) {
                   className={styles.navItem}
                   onMouseEnter={() => handleEnter(i)}
                   onMouseLeave={handleLeave}
-                  onClick={() => router.push(item.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push(item.href, { onTransitionReady: slideInOut });
+                  }}
                 >
                   <span className={styles.navLabel}>{item.label}</span>
 
