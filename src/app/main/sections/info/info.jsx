@@ -83,7 +83,7 @@ const Section1 = () => {
       start: "top 50%",
       end: "bottom bottom",
       onUpdate: (self) => {
-        const scale = 1 + 40 * self.progress;
+        const scale = 1 + 15 * self.progress;
         gsap.to(".revealer", {
           scale: scale,
           ease: "none",
@@ -124,8 +124,6 @@ const Section1 = () => {
           <div className="revealer-2"></div>
         </div>
       </div>
-
-      {/* <div className="next-content">Next Content</div>*/}
     </>
   );
 };

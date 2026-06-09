@@ -1,0 +1,17 @@
+.next-content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.next-content h1 {
+    font-size: 36px;
+    letter-spacing: 0;
+    color: black;
+    max-width: 1000px;
+}

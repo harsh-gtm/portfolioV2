@@ -15,6 +15,7 @@ import innerLayer from "../../../public/innerLayer_v2.png";
 import outerLayer from "../../../public/OuterLayer.png";
 import { useTransitionRouter } from "next-view-transitions";
 import Info from "./sections/info/info";
+import Initatives from "./sections/initiatives/initatives";
 
 const NAV_ITEMS = [
   {
@@ -301,6 +302,7 @@ export default function Hero({ onHoverChange }) {
       </main>
 
       <Info />
+      <Initatives />
     </div>
   );
 }

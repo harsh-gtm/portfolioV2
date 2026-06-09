@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.css";
-import Hero from "./hero/Hero";
+import Hero from "./main/main";
 import { useState } from "react";
 
 export default function Home() {
