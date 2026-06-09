@@ -1,0 +1,115 @@
+h1 {
+    text-transform: uppercase;
+    font-size: 200px;
+    font-weight: 400;
+    letter-spacing: -4px;
+}
+
+.content {
+    width: 100vw;
+    height: 150vh;
+    background-color: black;
+    color: white;
+}
+
+.content-row {
+    width: 100%;
+    height: 250px;
+    padding: 0 2em;
+}
+
+.content-row:nth-child(1) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.content-row:nth-child(2) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.info {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.info p {
+    padding: 1em;
+    font-family: "PP Editorial Old";
+    font-size: 52px;
+    font-weight: lighter;
+    max-width: 1200px;
+}
+
+.pinned {
+    position: absolute;
+    top: 100vh;
+    width: 100%;
+    height: 250vh;
+    z-index: 2;
+}
+
+.whitespace {
+    position: relative;
+    width: 100%;
+    height: 300vh;
+    background-color: black;
+    z-index: -1;
+}
+
+.revealer {
+    position: absolute;
+    transform: translate(-50%, 0%);
+    left: 25%;
+    margin-top: 300px;
+    width: 120px;
+    height: 120px;
+}
+
+.revealer .revealer-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    clip-path: polygon(45% 0%, 55% 0%, 55% 100%, 45% 100%);
+}
+
+.revealer .revealer-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    transform: rotate(90deg);
+    clip-path: polygon(45% 0%, 55% 0%, 55% 100%, 45% 100%);
+}
+
+.next-content {
+    position: relative;
+    width: 100%;
+    height: 150vh;
+    background-color: white;
+    z-index: 10;
+}
+
+.next-content h1 {
+    font-size: 72px;
+    letter-spacing: 0;
+    color: black;
+}
+
+@media (max-width: 1500px) {
+    .revealer {
+        left: 10%;
+    }
+}

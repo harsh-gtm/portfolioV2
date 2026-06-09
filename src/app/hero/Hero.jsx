@@ -14,6 +14,7 @@ import bgImage from "../../../public/bg.png";
 import innerLayer from "../../../public/innerLayer_v2.png";
 import outerLayer from "../../../public/OuterLayer.png";
 import { useTransitionRouter } from "next-view-transitions";
+import Info from "./sections/info/info";
 
 const NAV_ITEMS = [
   {
@@ -261,10 +262,10 @@ export default function Hero({ onHoverChange }) {
 
         <div className={styles.mainContent}>
           <h2 className={styles.hi} ref={hiRef}>
-            Hi, I&apos;m Harsh
+            Harsh Gautam
           </h2>
 
-          <nav>
+          {/* <nav>
             <ul className={styles.navList} ref={navRef}>
               {NAV_ITEMS.map((item, i) => (
                 <li
@@ -291,13 +292,15 @@ export default function Hero({ onHoverChange }) {
                 </li>
               ))}
             </ul>
-          </nav>
+          </nav>*/}
         </div>
 
         <div className={styles.progressBar} ref={progressBarRef}>
           <div className={styles.progress} />
         </div>
       </main>
+
+      <Info />
     </div>
   );
 }

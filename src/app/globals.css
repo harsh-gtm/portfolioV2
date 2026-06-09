@@ -19,6 +19,7 @@ body {
     background-color: black;
     overscroll-behavior: none;
     color: white;
+    font-family: "PP Neue Montreal";
 }
 
 * {

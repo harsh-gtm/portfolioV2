@@ -107,8 +107,8 @@
 .hi {
     font-size: clamp(48px, 8vw, 100px);
     font-weight: 400;
-    font-style: italic;
-    font-family: "Instrument Serif", serif;
+    font-family: "PP Editorial Old";
+    font-weight: lighter;
     color: #fff;
     letter-spacing: -3px;
     line-height: 1;
