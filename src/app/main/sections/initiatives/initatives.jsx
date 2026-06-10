@@ -20,7 +20,7 @@ const Initatives = () => {
   return (
     <div className="first-blurb">
       <h1 className="text">
-        My interests range from SWE, AI/ML, quantitative finance, and data
+        My interests range from SWE, AI/ML, Quantitative finance, and data
         analysis
       </h1>
     </div>
