@@ -106,9 +106,8 @@ const Section1 = () => {
 
       <div className="info">
         <p>
-          I&apos;m interested in humanatairan needs, specifically, how we can
-          use technology against propaganda and find a way to show stories that
-          are silenced.
+          I build technology with a simple goal: turning ambitious ideas into
+          tools that create meaningful impact.
         </p>
 
         <div className="images">

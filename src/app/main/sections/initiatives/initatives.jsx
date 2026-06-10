@@ -1,23 +1,28 @@
 import React from "react";
 import "./styles.css";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useEffect } from "react";
+import gsap from "gsap";
 
 const Initatives = () => {
-  return (
-    <div>
-      <div className="first-blurb">
-        <h1>
-          With my interest in high frequency systems and reaching ultra low
-          latency. everything I build is built on the principle on making things
-          fast and efficeint
-        </h1>
-      </div>
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
-      <div className="second-blurb">
-        <h1>
-          My goal is to be able to bring factual, uncensored information, and
-          rarely talked about events by these 2 projects*
-        </h1>
-      </div>
+    ScrollTrigger.create({
+      trigger: ".first-blurb",
+      start: "top center",
+      endTrigger: ".first-blurb",
+      end: "bottom bottom",
+      pin: true,
+    });
+  }, []);
+
+  return (
+    <div className="first-blurb">
+      <h1 className="text">
+        My interests range from SWE, AI/ML, quantitative finance, and data
+        analysis
+      </h1>
     </div>
   );
 };
