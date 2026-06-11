@@ -106,8 +106,8 @@ const Section1 = () => {
 
       <div className="info">
         <p>
-          I build technology with a simple goal: turning ambitious ideas into
-          tools that create meaningful impact.
+          I build with a simple goal: turning ambitious ideas into something
+          that can create meaningful impact.
         </p>
 
         <div className="images">
