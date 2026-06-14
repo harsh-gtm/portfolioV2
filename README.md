@@ -1,3 +1,7 @@
+
+
+
+
 # Personal Portfolio Overhaul
 
 This repo if for my redesigned personal portfolio. This project represents a complete architectural and visual overhaul of my previous site, moving from a static presentation to a more fluid and lively experience.
@@ -27,7 +31,7 @@ I am transitioning away from my previous design to embrace a more atmospheric, i
 *Current/Previous status: unsospiro.com*
 
 ### The New Direction (Current Development)
-![New Portfolio Preview]([path-to-your-new-site-image])
+https://github.com/user-attachments/assets/4cf5afb5-d814-4b6b-b826-03ff1bb7fb25
 
 ---
 
