@@ -24,7 +24,7 @@ I am transitioning away from my previous design to embrace a more atmospheric, i
 
 ### Before (Legacy Portfolio)
 ![Legacy Website Screenshot]([path-to-your-old-site-image])
-*Current/Previous status: [Link to your old website]*
+*Current/Previous status: unsospiro.com*
 
 ### The New Direction (Current Development)
 ![New Portfolio Preview]([path-to-your-new-site-image])
@@ -34,14 +34,11 @@ I am transitioning away from my previous design to embrace a more atmospheric, i
 ## Key Development Challenges
 * **Scroll Synchronization:** Balancing Lenis's smooth-scroll wrapper with GSAP's pin-functionality to ensure triggers remain accurate across different viewport heights.
 * **Performance Budgeting:** Using hardware-accelerated CSS properties to maintain high frame rates while running multiple concurrent animation timelines.
-
-## License
-This project is open-source and available for review.
-
-# Architecture for /blog
+* **Veiw:** Making sure the look and feel of the website remains constant throughout different devices
+  
+# Key features to implement: 
+---
+## Architecture for /blog
 <img width="1440" height="1240" alt="image" src="https://github.com/user-attachments/assets/c07ffebf-3a57-4beb-bde3-fe6f0c6b0d29" />
 
 
-## Website
-
-https://unsospiro.com
