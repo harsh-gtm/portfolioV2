@@ -1,4 +1,4 @@
-# Unsospiro: Personal Portfolio Overhaul
+# Personal Portfolio Overhaul
 
 This repo if for my redesigned personal portfolio. This project represents a complete architectural and visual overhaul of my previous site, moving from a static presentation to a more fluid and lively experience.
 
