@@ -3,7 +3,7 @@
 This repo if for my redesigned personal portfolio. This project represents a complete architectural and visual overhaul of my previous site, moving from a static presentation to a more fluid and lively experience.
 
 ## The Vision
-I chose the name **"Unsospiro"** (Italian for "a sigh") to capture a specific aesthetic: **continuous and seamless movement.** As the piano work by Franz Lizst is a musical sigh that flows effortlessly between notes, I wanted my portfolio to feel similiar in the sense that the viewer should go flow through my journey effortlessly.
+I chose the name **"Unsospiro"** (Italian for "a sigh") to capture a specific aesthetic: continuous and seamless movement. As the piano work by Franz Lizst is a musical sigh that flows effortlessly between notes, I wanted my portfolio to feel similiar in the sense that the viewer should go flow through my journey effortlessly.
 
 This overhaul focuses on eliminating friction in the user journey, replacing abrupt transitions with more fluid and orchestrated animations that feel intentional and premium.
 
