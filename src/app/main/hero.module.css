@@ -73,10 +73,11 @@
 .preloaderCounter h1 {
     display: inline-flex;
     justify-content: center;
-    overflow: hidden;
     height: 1lh;
+    min-width: 3ch;
     text-align: center;
     font-size: 48px;
+    margin-left: 10px;
 }
 
 .progressBar {
@@ -93,19 +94,33 @@
 
 .mainContent {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 25;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-    width: max-content;
+    inset: 0;
+    pointer-events: none;
+    display: block;
+    z-index: 2;
 }
 
-.hi {
-    font-size: clamp(48px, 8vw, 100px);
+.firstName {
+    position: absolute;
+    top: 20vh;
+    left: 10vw;
+    font-size: 250px;
+    font-weight: 400;
+    font-family: "PP Editorial Old";
+    font-weight: lighter;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: -3px;
+    line-height: 1;
+    visibility: hidden;
+}
+
+.lastName {
+    position: absolute;
+    bottom: 30vh; /* 5% from the bottom */
+    right: 5vw; /* 5% from the right */
+    font-size: 250px;
+    text-align: right;
     font-weight: 400;
     font-family: "PP Editorial Old";
     font-weight: lighter;
@@ -113,90 +128,73 @@
     letter-spacing: -3px;
     line-height: 1;
     visibility: hidden;
+    transform: translate(0%, 50%);
+}
+
+.navContainer {
+    position: absolute;
+    top: 50px;
+    left: 5vw;
+    right: 5vw;
+    z-index: 10;
 }
 
 .navList {
     list-style: none;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
-    position: relative;
-}
-
-.navList li {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.navItem {
-    position: relative;
-    display: inline-flex;
+    justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+    margin: 0;
+    padding: 0;
 }
 
 .navLabel {
-    font-size: clamp(28px, 4vw, 52px);
-    font-style: italic;
-    font-weight: 400;
-    font-family: "Instrument Serif", serif;
-    color: rgba(255, 255, 255, 0.7);
-    transition:
-        color 0.3s ease,
-        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-        letter-spacing 0.3s ease;
-    display: inline-block;
-    transform-origin: left center;
-}
-
-.navItem:hover .navLabel {
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
     color: #fff;
-    transform: scale(1.08);
-    letter-spacing: 1px;
 }
 
-.infoCard {
-    position: fixed;
-    left: calc(50% + 160px);
-    top: 50%;
-    transform: translateY(-50%) scale(0.9);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 0.5px solid rgba(255, 255, 255, 0.25);
-    border-radius: 12px;
-    padding: 18px 22px;
-    width: 230px;
-    opacity: 0;
+.navLabel::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navItem:hover .navLabel::after {
+    transform: scaleX(1);
+}
+
+.scrollIndicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    z-index: 10;
     pointer-events: none;
-    transition:
-        opacity 0.3s ease,
-        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    white-space: normal;
-    z-index: 30;
 }
 
-.infoCardVisible {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-}
-
-.infoCardTitle {
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    font-style: normal;
-    margin-bottom: 8px;
-    font-family: var(--font-sans);
-}
-
-.infoCardDesc {
+.scrollText {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
-    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     font-family: var(--font-sans);
+}
+
+.arrow {
+    animation: bounce 2s infinite ease-in-out;
 }
 
 @media (max-width: 768px) {

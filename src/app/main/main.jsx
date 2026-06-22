@@ -19,21 +19,20 @@ import Initatives from "./sections/initiatives/initatives";
 
 const NAV_ITEMS = [
   {
-    label: "Who am I?",
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "About Me",
     href: "/about",
-    description:
-      "A deeper look into who I am — my background, values, and what drives me to build things.",
   },
   {
     label: "Projects",
     href: "/projects",
-    description:
-      "A showcase of things I've built — from experiments to finished work. Dig into the details.",
   },
   {
     label: "Blog",
     href: "/blog",
-    description: "Writing about what I'm learning and building.",
   },
 ];
 
@@ -45,8 +44,10 @@ export default function Hero({ onHoverChange }) {
   const counterRef = useRef(null);
   const preloaderCounterRef = useRef(null);
   const progressBarRef = useRef(null);
-  const hiRef = useRef(null);
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
   const navRef = useRef(null);
+  const scrollIndicatorRef = useRef(null);
 
   const updateCounter = () => {
     if (counterRef.current)
@@ -68,7 +69,9 @@ export default function Hero({ onHoverChange }) {
     CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
     gsap.set(`.${styles.imageContainer}`, { willChange: "clip-path" });
-    gsap.set(hiRef.current, { autoAlpha: 0, yPercent: 60 });
+    gsap.set(firstNameRef.current, { autoAlpha: 0, yPercent: 60 });
+    gsap.set(lastNameRef.current, { autoAlpha: 0, yPercent: 60 });
+    gsap.set(scrollIndicatorRef.current, { autoAlpha: 0, yPercent: 60 });
     gsap.set(navRef.current?.querySelectorAll("li"), {
       autoAlpha: 0,
       yPercent: 40,
@@ -132,7 +135,7 @@ export default function Hero({ onHoverChange }) {
           "<",
         )
         .to(
-          hiRef.current,
+          [firstNameRef.current, lastNameRef.current],
           { autoAlpha: 1, yPercent: 0, duration: 1.2, ease: "power4.out" },
           "-=1",
         )
@@ -146,6 +149,12 @@ export default function Hero({ onHoverChange }) {
             stagger: 0.1,
           },
           "-=0.6",
+        )
+        .fromTo(
+          scrollIndicatorRef.current,
+          { autoAlpha: 0, y: 40 },
+          { autoAlpha: 1, y: 0, duration: 1, ease: "power4.out" },
+          "-=0.5",
         );
 
       // Parallax
@@ -216,6 +225,15 @@ export default function Hero({ onHoverChange }) {
   return (
     <div>
       <main className={styles.main}>
+        <nav className={styles.navContainer}>
+          <ul className={styles.navList} ref={navRef}>
+            {NAV_ITEMS.map((item, i) => (
+              <li key={item.label} className={styles.navItem}>
+                <span className={styles.navLabel}>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div className={styles.vignette} />
 
         <div className={styles.preloaderCounter} ref={preloaderCounterRef}>
@@ -262,42 +280,21 @@ export default function Hero({ onHoverChange }) {
         />
 
         <div className={styles.mainContent}>
-          <h2 className={styles.hi} ref={hiRef}>
-            Harsh Gautam
+          <h2 className={styles.firstName} ref={firstNameRef}>
+            Harsh
           </h2>
-
-          {/* <nav>
-            <ul className={styles.navList} ref={navRef}>
-              {NAV_ITEMS.map((item, i) => (
-                <li
-                  key={item.label}
-                  className={styles.navItem}
-                  onMouseEnter={() => handleEnter(i)}
-                  onMouseLeave={handleLeave}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    router.push(item.href, { onTransitionReady: slideInOut });
-                  }}
-                >
-                  <span className={styles.navLabel}>{item.label}</span>
-
-                  <div
-                    className={clsx(
-                      styles.infoCard,
-                      hoveredIndex === i && styles.infoCardVisible,
-                    )}
-                  >
-                    <p className={styles.infoCardTitle}>{item.label}</p>
-                    <p className={styles.infoCardDesc}>{item.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </nav>*/}
+          <h2 className={styles.lastName} ref={lastNameRef}>
+            Gautam
+          </h2>
         </div>
 
         <div className={styles.progressBar} ref={progressBarRef}>
           <div className={styles.progress} />
+        </div>
+
+        <div className={styles.scrollIndicator} ref={scrollIndicatorRef}>
+          <span className={styles.scrollText}>scroll</span>
+          <div className={styles.arrow}>↓</div>
         </div>
       </main>
 
