@@ -3,6 +3,7 @@ import "./styles.css";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect } from "react";
 import gsap from "gsap";
+import AnimateLines from "@/components/TextAnimation/AnimateLines";
 
 const Initatives = () => {
   useEffect(() => {
@@ -51,10 +52,12 @@ const Initatives = () => {
   return (
     <>
       <div className="first-blurb">
-        <h1>
-          My interests range from CS, machine learning, Quantitative finance,
-          and data science
-        </h1>
+        <AnimateLines>
+          <h1>
+            My interests range from CS, machine learning, Quantitative finance,
+            and data science
+          </h1>
+        </AnimateLines>
       </div>
 
       <div className="rect-container">

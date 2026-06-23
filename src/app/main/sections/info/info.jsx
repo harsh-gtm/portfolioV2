@@ -3,6 +3,8 @@ import "./styles.css";
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimateLines from "@/components/TextAnimation/AnimateLines";
+import AnimateChars from "@/components/TextAnimation/AnimateChars";
 
 const Section1 = () => {
   useEffect(() => {
@@ -97,18 +99,24 @@ const Section1 = () => {
     <>
       <div className="content">
         <div className="content-row">
-          <h1>Student</h1>
+          <AnimateChars>
+            <h1>Student</h1>
+          </AnimateChars>
         </div>
         <div className="content-row">
-          <h1>Developer</h1>
+          <AnimateChars>
+            <h1>Developer</h1>
+          </AnimateChars>
         </div>
       </div>
 
       <div className="info">
-        <p>
-          I build with a simple goal: turning ambitious ideas into something
-          that can create meaningful impact.
-        </p>
+        <AnimateLines>
+          <p>
+            I build with a simple goal: turning ambitious ideas into something
+            that can create meaningful impact.
+          </p>
+        </AnimateLines>
 
         <div className="images">
           <div className="image"></div>
