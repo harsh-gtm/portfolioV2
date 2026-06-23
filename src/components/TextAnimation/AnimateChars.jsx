@@ -39,7 +39,7 @@ const AnimateChars = ({ children, animateOnScroll = true, delay = 0 }) => {
         chars.current.push(...split.chars);
       });
 
-      gsap.set(chars.current, { y: "100%", opacity: 0 });
+      gsap.set(chars.current, { y: "60%", opacity: 0 });
 
       const animationProps = {
         y: "0%",

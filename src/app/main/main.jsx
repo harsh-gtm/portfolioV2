@@ -16,27 +16,9 @@ import outerLayer from "../../../public/OuterLayer.png";
 import { useTransitionRouter } from "next-view-transitions";
 import Info from "./sections/info/info";
 import Initatives from "./sections/initiatives/initatives";
+import Navbar from "@/components/Navbar/Navbar";
 
-const NAV_ITEMS = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "About Me",
-    href: "/about",
-  },
-  {
-    label: "Projects",
-    href: "/projects",
-  },
-  {
-    label: "Blog",
-    href: "/blog",
-  },
-];
-
-export default function Hero({ onHoverChange }) {
+export default function Hero() {
   const router = useTransitionRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -225,15 +207,7 @@ export default function Hero({ onHoverChange }) {
   return (
     <div>
       <main className={styles.main}>
-        <nav className={styles.navContainer}>
-          <ul className={styles.navList} ref={navRef}>
-            {NAV_ITEMS.map((item, i) => (
-              <li key={item.label} className={styles.navItem}>
-                <span className={styles.navLabel}>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <Navbar />
         <div className={styles.vignette} />
 
         <div className={styles.preloaderCounter} ref={preloaderCounterRef}>

@@ -10,7 +10,7 @@ const Navbar = () => {
   const prefetch = (path) => router.prefetch(path);
 
   return (
-    <nav className="nav">
+    <nav className="navContainer">
       <div className="home">
         <div className="link">
           <a
@@ -35,7 +35,7 @@ const Navbar = () => {
             }}
             href="/about"
           >
-            Who Am I?
+            About Me
           </a>
         </div>
         <div className="link">
