@@ -110,6 +110,10 @@ const Section1 = () => {
         </div>
       </div>
 
+      <div className="timeline">
+        <div>---------------------------------</div>
+      </div>
+
       <div className="info">
         <AnimateLines>
           <p>

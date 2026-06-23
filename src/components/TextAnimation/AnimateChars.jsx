@@ -39,14 +39,13 @@ const AnimateChars = ({ children, animateOnScroll = true, delay = 0 }) => {
         chars.current.push(...split.chars);
       });
 
-      // Initial state: invisible and shifted down
       gsap.set(chars.current, { y: "100%", opacity: 0 });
 
       const animationProps = {
         y: "0%",
         opacity: 1,
         duration: 0.8,
-        stagger: 0.03, // Tighter stagger for characters
+        stagger: 0.03,
         ease: "power4.out",
         delay: delay,
       };

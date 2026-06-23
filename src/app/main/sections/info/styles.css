@@ -6,6 +6,7 @@ h1 {
 }
 
 .content {
+    transform: translateY(55px);
     width: 100vw;
     height: 150vh;
     background-color: black;
