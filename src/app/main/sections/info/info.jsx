@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimateLines from "@/components/TextAnimation/AnimateLines";
 import AnimateChars from "@/components/TextAnimation/AnimateChars";
+import Timeline from "@/components/Timeline/timeline";
 
 const Section1 = () => {
   useEffect(() => {
@@ -108,10 +109,8 @@ const Section1 = () => {
             <h1>Developer</h1>
           </AnimateChars>
         </div>
-      </div>
 
-      <div className="timeline">
-        <div>---------------------------------</div>
+        <Timeline />
       </div>
 
       <div className="info">

@@ -1,0 +1,123 @@
+.timeline-dial {
+    position: absolute;
+    top: 600px;
+    right: 15em;
+    width: 640px;
+    height: 620px;
+    overflow: hidden;
+    z-index: 10;
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 18%,
+        black 82%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 18%,
+        black 82%,
+        transparent 100%
+    );
+}
+
+.timeline-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Inner strip starts hidden behind outer — only pips show */
+.timeline-strip--inner {
+    pointer-events: none;
+}
+.timeline-strip--inner .tick-dashes,
+.timeline-strip--inner .tick-year {
+    visibility: hidden;
+}
+
+.tick-row {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+.tick-dashes {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tick-dashes--left {
+    justify-content: flex-end;
+}
+.tick-dashes--right {
+    justify-content: flex-start;
+}
+
+.tick-dashes span {
+    display: block;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+.tick-dashes--left span:nth-child(1) {
+    width: 40px;
+} /* was 20px */
+.tick-dashes--left span:nth-child(2) {
+    width: 60px;
+} /* was 32px */
+.tick-dashes--left span:nth-child(3) {
+    width: 24px;
+}
+
+.tick-dashes--right span:nth-child(1) {
+    width: 24px;
+} /* was 12px */
+.tick-dashes--right span:nth-child(2) {
+    width: 60px;
+} /* was 32px */
+.tick-dashes--right span:nth-child(3) {
+    width: 24px;
+}
+
+.tick-row--major .tick-dashes span {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.tick-pip {
+    width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tick-pip--active::after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    display: block;
+}
+.tick-row--major .tick-pip--active::after {
+    width: 9px;
+    height: 9px;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+}
+
+.tick-year {
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.45);
+    min-width: 38px;
+    margin-left: 4px;
+}
+.tick-row--major .tick-year {
+    color: rgba(255, 255, 255, 0.8);
+}
