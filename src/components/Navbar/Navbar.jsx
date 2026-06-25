@@ -1,16 +1,16 @@
 "use client";
-import React from "react";
+import React, { forwardRef } from "react";
 import "./Navbar.css";
 import { useTransitionRouter } from "next-view-transitions";
 import slideInOut from "../PageTransition/PageTransition";
 
-const Navbar = () => {
+const Navbar = forwardRef((props, ref) => {
   const router = useTransitionRouter();
 
   const prefetch = (path) => router.prefetch(path);
 
   return (
-    <nav className="navContainer">
+    <nav className="navContainer" ref={ref}>
       <div className="home">
         <div className="link">
           <a
@@ -65,6 +65,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+});
 
 export default Navbar;

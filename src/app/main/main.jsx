@@ -17,6 +17,7 @@ import { useTransitionRouter } from "next-view-transitions";
 import Info from "./sections/info/info";
 import Initatives from "./sections/initiatives/initatives";
 import Navbar from "@/components/Navbar/Navbar";
+import AnimateChars from "@/components/TextAnimation/AnimateChars";
 
 export default function Hero() {
   const router = useTransitionRouter();
@@ -54,7 +55,7 @@ export default function Hero() {
     gsap.set(firstNameRef.current, { autoAlpha: 0, yPercent: 60 });
     gsap.set(lastNameRef.current, { autoAlpha: 0, yPercent: 60 });
     gsap.set(scrollIndicatorRef.current, { autoAlpha: 0, yPercent: 60 });
-    gsap.set(navRef.current?.querySelectorAll("li"), {
+    gsap.set(navRef.current?.querySelectorAll(".link"), {
       autoAlpha: 0,
       yPercent: 40,
     });
@@ -122,7 +123,7 @@ export default function Hero() {
           "-=1",
         )
         .to(
-          navRef.current?.querySelectorAll("li"),
+          navRef.current?.querySelectorAll(".link"),
           {
             autoAlpha: 1,
             yPercent: 0,
@@ -207,7 +208,7 @@ export default function Hero() {
   return (
     <div>
       <main className={styles.main}>
-        <Navbar />
+        <Navbar ref={navRef} />
         <div className={styles.vignette} />
 
         <div className={styles.preloaderCounter} ref={preloaderCounterRef}>
