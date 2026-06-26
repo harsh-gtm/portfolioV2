@@ -48,6 +48,9 @@ export default function Hero() {
   };
 
   useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+
     gsap.registerPlugin(CustomEase, SplitText);
     CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
