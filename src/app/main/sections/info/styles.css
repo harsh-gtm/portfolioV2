@@ -72,6 +72,7 @@ h1 {
     margin-top: 300px;
     width: 120px;
     height: 120px;
+    will-change: transform;
 }
 
 .revealer .revealer-1 {
@@ -82,6 +83,7 @@ h1 {
     height: 100%;
     background-color: white;
     clip-path: polygon(45% 0%, 55% 0%, 55% 100%, 45% 100%);
+    will-change: clip-path;
 }
 
 .revealer .revealer-2 {

@@ -7,17 +7,14 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { CustomEase } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import slideInOut from "../../components/PageTransition/PageTransition";
-
-import bgImage from "../../../public/bg.png";
-import innerLayer from "../../../public/innerLayer_v2.png";
-import outerLayer from "../../../public/OuterLayer.png";
 import { useTransitionRouter } from "next-view-transitions";
 import Info from "./sections/info/info";
 import Initatives from "./sections/initiatives/initatives";
 import Navbar from "@/components/Navbar/Navbar";
-import AnimateChars from "@/components/TextAnimation/AnimateChars";
+
+import bgImage from "../../../public/bg.png";
+import innerLayer from "../../../public/innerLayer_v2.png";
+import outerLayer from "../../../public/OuterLayer.png";
 
 export default function Hero() {
   const router = useTransitionRouter();
@@ -39,12 +36,10 @@ export default function Hero() {
 
   const handleEnter = (i) => {
     setHoveredIndex(i);
-    onHoverChange(true);
   };
 
   const handleLeave = () => {
     setHoveredIndex(null);
-    onHoverChange(false);
   };
 
   useEffect(() => {
@@ -54,7 +49,13 @@ export default function Hero() {
     gsap.registerPlugin(CustomEase, SplitText);
     CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
-    gsap.set(`.${styles.imageContainer}`, { willChange: "clip-path" });
+    const imageContainers = document.querySelectorAll(
+      `.${styles.imageContainer}`,
+    );
+    imageContainers.forEach((el) => {
+      el.style.willChange = "clip-path";
+    });
+
     gsap.set(firstNameRef.current, { autoAlpha: 0, yPercent: 60 });
     gsap.set(lastNameRef.current, { autoAlpha: 0, yPercent: 60 });
     gsap.set(scrollIndicatorRef.current, { autoAlpha: 0, yPercent: 60 });
@@ -110,12 +111,10 @@ export default function Hero() {
             ease: "power3.out",
             stagger: 0.1,
             onComplete: () => {
-              (gsap.delayedCall(0.1, () =>
+              gsap.delayedCall(0.1, () =>
                 preloaderCounterRef.current?.remove(),
-              ),
-                document
-                  .querySelectorAll(`.${styles.imageContainer}`)
-                  .forEach((el) => (el.style.willChange = "auto")));
+              );
+              imageContainers.forEach((el) => (el.style.willChange = "auto"));
             },
           },
           "<",
@@ -143,11 +142,11 @@ export default function Hero() {
           "-=0.5",
         );
 
-      // Parallax
       const layers = document.querySelectorAll(`.${styles.parallax}`);
       const setters = Array.from(layers).map((layer) => {
         const depth = Number(layer.dataset.depth) || 0.05;
         const isInnerLayer = layer.classList.contains(styles.innerLayer);
+        layer.style.willChange = "transform";
         return {
           depth,
           baseX: isInnerLayer ? 47 : 0,
@@ -156,16 +155,31 @@ export default function Hero() {
         };
       });
 
-      const handleMouseMove = (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 2;
-        const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        setters.forEach(({ depth, baseX, x: setX, y: setY }) => {
-          setX(baseX - x * depth * 180);
-          setY(-y * depth * 150);
+      let rafId = null;
+      let mouseX = 0;
+      let mouseY = 0;
+
+      const onMouseMove = (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+          setters.forEach(({ depth, baseX, x: setX, y: setY }) => {
+            setX(baseX - mouseX * depth * 180);
+            setY(-mouseY * depth * 150);
+          });
+          rafId = null;
         });
       };
 
-      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mousemove", onMouseMove, { passive: true });
+
+      return () => {
+        window.removeEventListener("mousemove", onMouseMove);
+        if (rafId) cancelAnimationFrame(rafId);
+        layers.forEach((layer) => (layer.style.willChange = "auto"));
+      };
     };
 
     const loadTl = gsap.timeline({ onComplete: runExitAnimation });
@@ -206,6 +220,11 @@ export default function Hero() {
         { scaleX: 1, duration: 1, ease: "power4.out" },
         "<",
       );
+
+    return () => {
+      gsap.killTweensOf("*");
+      document.body.style.overflow = "";
+    };
   }, []);
 
   return (
