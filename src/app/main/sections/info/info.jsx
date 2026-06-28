@@ -13,6 +13,8 @@ const Section1 = () => {
   const revealer1Ref = useRef(null);
   const revealer2Ref = useRef(null);
   const pathRef = useRef(null);
+  const sliderTrackRef = useRef(null);
+  const sliderWrapperRef = useRef(null);
 
   useEffect(() => {
     const revealer = revealerRef.current;
@@ -79,6 +81,9 @@ const Section1 = () => {
           const left = baseLeft + offsetLeft * self.progress;
 
           gsap.set(revealer, { left: `${left}%` });
+          gsap.set(sliderTrackRef.current, {
+            x: `-${self.progress * 500}px`,
+          });
         },
       }),
 
@@ -139,16 +144,56 @@ const Section1 = () => {
       </div>
 
       <div className="info">
-        <AnimateLines>
+        <AnimateLines delay={1}>
           <p>
             I build with a simple goal: turning ambitious ideas into something
-            that can create meaningful impact.
+            that can create meaningful impact
           </p>
         </AnimateLines>
-
-        <div className="images">
-          <div className="image"></div>
-        </div>
+        {/* <div className="slider-wrapper" ref={sliderWrapperRef}>
+          <div className="slider-track" ref={sliderTrackRef}>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "red" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "blue" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "green" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+            <div
+              className="slider-item"
+              style={{ backgroundColor: "yellow" }}
+            ></div>
+          </div>
+        </div>*/}
       </div>
 
       <div className="whitespace"></div>
