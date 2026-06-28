@@ -27,11 +27,17 @@ I am transitioning away from my previous design to embrace a more atmospheric, i
 ---
 
 ### Before (Legacy Portfolio)
-![Legacy Website Screenshot]([path-to-your-old-site-image])
-*Current/Previous status: unsospiro.com*
+<img width="2880" height="1800" alt="image" src="https://github.com/user-attachments/assets/736c8ef0-9a08-488c-810d-2a8e3f5e5c15" />
+
+*[unsospiro.com](unsospiro.com)*
 
 ### The New Direction (Current Development)
-https://github.com/user-attachments/assets/4cf5afb5-d814-4b6b-b826-03ff1bb7fb25
+
+
+https://github.com/user-attachments/assets/10c2ba02-6b22-425b-af85-f2f4a1456640
+
+
+
 
 ---
 
@@ -42,7 +48,5 @@ https://github.com/user-attachments/assets/4cf5afb5-d814-4b6b-b826-03ff1bb7fb25
   
 # Key features to implement: 
 ---
-## Architecture for /blog
-<img width="1440" height="1240" alt="image" src="https://github.com/user-attachments/assets/c07ffebf-3a57-4beb-bde3-fe6f0c6b0d29" />
-
-
+## Blog
+- Implement a headless CMS to manage, edit, and publish my technical write ups and blogs
