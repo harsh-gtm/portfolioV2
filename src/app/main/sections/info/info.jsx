@@ -5,6 +5,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimateLines from "@/components/TextAnimation/AnimateLines";
 import AnimateChars from "@/components/TextAnimation/AnimateChars";
 import Timeline from "@/components/Timeline/timeline";
+import AnimateText from "@/components/TextAnimation/AnimateText";
+import Image from "next/image";
+// import image1 from "public/infopic1.jpg";
+// import image2 from "public/infopic2.jpg";
+// import image3 from "public/infopic3.jpg";
+// import image4 from "public/infopic4.jpg";
+// import image5 from "public/infopic5.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,14 +124,14 @@ const Section1 = () => {
     <>
       <div className="content">
         <div className="content-row">
-          <AnimateChars>
+          <AnimateText type="chars" stagger={0.05} scrub={0.5}>
             <h1>Student</h1>
-          </AnimateChars>
+          </AnimateText>
         </div>
         <div className="content-row">
-          <AnimateChars>
+          <AnimateText type="chars" stagger={0.05} scrub={0.5}>
             <h1>Developer</h1>
-          </AnimateChars>
+          </AnimateText>
         </div>
 
         <div className="svg-container">
@@ -132,7 +139,7 @@ const Section1 = () => {
             <path
               ref={pathRef}
               className="line"
-              d="M3-9C0 2-5 19-11 18-17 18-17 13-15 11 0 2 16 12 24 19 40 34 10 28-7 27-24 27-6 39 11 33 28 29 1 37 3 51"
+              d="M3-9C0 2-5 19-11 18-17 18-17 13-15 11-11 7 8 6 22 25 40 34 36 26 41 36 44 35 40 41 37 52"
               fill="none"
               stroke="red"
               strokeWidth="3"
@@ -144,56 +151,46 @@ const Section1 = () => {
       </div>
 
       <div className="info">
-        <AnimateLines delay={1}>
+        <AnimateText type="words">
           <p>
             I build with a simple goal: turning ambitious ideas into something
             that can create meaningful impact
           </p>
-        </AnimateLines>
-        {/* <div className="slider-wrapper" ref={sliderWrapperRef}>
+        </AnimateText>
+        <div className="slider-wrapper" ref={sliderWrapperRef}>
           <div className="slider-track" ref={sliderTrackRef}>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "red" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "blue" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "green" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
-            <div
-              className="slider-item"
-              style={{ backgroundColor: "yellow" }}
-            ></div>
+            <Image
+              src="/infopic1.jpg"
+              alt="Remote image"
+              width={500}
+              height={300}
+            />
+            <Image
+              src="/infopic2.jpg"
+              alt="Remote image"
+              width={500}
+              height={300}
+            />
+            <Image
+              src="/infopic3.jpg"
+              alt="Remote image"
+              width={500}
+              height={300}
+            />
+            <Image
+              src="/infopic4.jpg"
+              alt="Remote image"
+              width={500}
+              height={300}
+            />
+            <Image
+              src="/infopic5.jpg"
+              alt="Remote image"
+              width={500}
+              height={300}
+            />
           </div>
-        </div>*/}
+        </div>
       </div>
 
       <div className="whitespace"></div>
