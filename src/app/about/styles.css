@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Six+Caps&display=swap");
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    color: #fff;
+    font-family: "Six Caps", sans-serif;
+    overflow: hidden;
+}
+
+.quote-container {
+    display: flex;
+    gap: 25px;
+    max-width: 600px;
+}
+
+.vertical-line {
+    width: 5px;
+    background-color: #fff;
+    flex-shrink: 0;
+}
+
+.text-block p {
+    font-size: 3.5rem;
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0;
+    text-transform: lowercase;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
