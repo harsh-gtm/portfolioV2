@@ -15,6 +15,8 @@ export default function LenisProvider({ children }) {
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
+    lenisRef.current?.lenis?.on('scroll', gsap.updateRoot);
+
     return () => {
       gsap.ticker.remove(update);
     };
