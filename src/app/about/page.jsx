@@ -42,74 +42,93 @@ export default function Sectiontwo() {
     const ARC_BULGE = 220;
     const ARC_X_OFFSET = 150;
 
+    const PHASE1_END = 0.2;
+    const PHASE2_END = 0.95;
+
+
+    const FADE_BUFFER_RATIO = 0.25;
+    const OVERLAP_FACTOR = 0.5;
+    const numImages = spotlightItems.length;
+    const activeSpan =
+      1 / ((numImages - 1) * OVERLAP_FACTOR + (1 + FADE_BUFFER_RATIO));
+    const stagger = OVERLAP_FACTOR * activeSpan;
+
     const arcConfig = {
-        startX: 0,
-        startY: 0,
-        endY: 0,
-        controlX: 0,
-        controlY: 0,
-      };
+      startX: 0,
+      startY: 0,
+      endY: 0,
+      controlX: 0,
+      controlY: 0,
+    };
 
     function getBezierPosition(t) {
-        const x =
-          (1 - t) * (1 - t) * arcConfig.startX +
-          2 * (1 - t) * t * arcConfig.controlX +
-          t * t * arcConfig.startX;
-        const y =
-          (1 - t) * (1 - t) * arcConfig.startY +
-          2 * (1 - t) * t * arcConfig.controlY +
-          t * t * arcConfig.endY;
-        return { x, y };
-      }
+      const x =
+        (1 - t) * (1 - t) * arcConfig.startX +
+        2 * (1 - t) * t * arcConfig.controlX +
+        t * t * arcConfig.startX;
+      const y =
+        (1 - t) * (1 - t) * arcConfig.startY +
+        2 * (1 - t) * t * arcConfig.controlY +
+        t * t * arcConfig.endY;
+      return { x, y };
+    }
 
-      function getImgProgressState(index, overallProgress) {
-        const stagger = 0.2;
-        const activeSpan = 0.6;
+    function getImgProgressState(index, overallProgress) {
+      const startTime = index * stagger;
+      return (overallProgress - startTime) / activeSpan;
+    }
 
-        const startTime = index * stagger;
+    function resetImages() {
+      imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+    }
 
-        return (overallProgress - startTime) / activeSpan;
-      }
+    function applyTitleSpacing() {
+      titleElements.forEach((title, i) => {
+        if (i < titleElements.length - 1) {
+          title.style.marginBottom = `20px`;
+        }
+      });
+    }
 
-    imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+    function resetTitles() {
+      const initialY = window.innerHeight;
+      gsap.set(titlesWrapperRef.current, { transform: `translateY(${initialY}px)` });
+      titleElements.forEach((title, i) => {
+        title.classList.toggle("is-active", i === 0);
+      });
+      currentActiveIndex = 0;
+      if (bgImgRef.current) bgImgRef.current.src = spotlightItems[0].img;
+    }
+
+    resetImages();
     gsap.set(titlesContainerRef.current, { opacity: 0 });
     gsap.set(headerRef.current, { opacity: 0 });
     gsap.set(linesWrapperRef.current, { opacity: 0 });
-    const initialY = window.innerHeight;
-    gsap.set(titlesWrapperRef.current, { transform: `translateY(${initialY}px)` });
+    resetTitles();
 
     let isRevealed = false;
-    let revealTimeoutId = null;
 
     function showTitles() {
-      if (revealTimeoutId) return;
-      revealTimeoutId = setTimeout(() => {
-        gsap.to([headerRef.current, linesWrapperRef.current, titlesContainerRef.current], {
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-        isRevealed = true;
-        revealTimeoutId = null;
-      }, 500);
+      if (isRevealed) return;
+      gsap.to([headerRef.current, linesWrapperRef.current, titlesContainerRef.current], {
+        opacity: 1,
+        duration: 0.2,
+        ease: "power2.out",
+        overwrite: true,
+      });
+      isRevealed = true;
     }
 
     function hideTitles() {
-      if (revealTimeoutId) {
-        clearTimeout(revealTimeoutId);
-        revealTimeoutId = null;
-      }
-      if (isRevealed) {
-        gsap.to([headerRef.current, linesWrapperRef.current, titlesContainerRef.current], {
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-        isRevealed = false;
-      }
+      if (!isRevealed) return;
+      gsap.to([headerRef.current, linesWrapperRef.current, titlesContainerRef.current], {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.out",
+        overwrite: true,
+      });
+      isRevealed = false;
     }
-
-    positionLines();
 
     const trigger = ScrollTrigger.create({
       trigger: spotlightRef.current,
@@ -121,14 +140,14 @@ export default function Sectiontwo() {
       onUpdate: (self) => {
         const progress = self.progress;
 
-        if (progress > 0.2 && progress <= 0.95) {
-            showTitles();
-          } else {
-            hideTitles();
-          }
+        if (progress > PHASE1_END && progress <= PHASE2_END) {
+          showTitles();
+        } else {
+          hideTitles();
+        }
 
-        if (progress <= 0.2) {
-          const animationProgress = progress / 0.2;
+        if (progress <= PHASE1_END) {
+          const animationProgress = progress / PHASE1_END;
           const moveDistance = window.innerWidth * 0.6;
 
           gsap.set(introTextElements[0], {
@@ -146,16 +165,19 @@ export default function Sectiontwo() {
           gsap.set(bgImgRef.current, {
             transform: `scale(${1.5 - animationProgress * 0.5})`,
           });
-        } else if (progress > 0.25 && progress <= 0.95) {
+
+          resetImages();
+          resetTitles();
+        } else if (progress <= PHASE2_END) {
           gsap.set(bgWrapperRef.current, { transform: "scale(1)" });
           gsap.set(bgImgRef.current, { transform: "scale(1)" });
           gsap.set(introTextElements[0], { opacity: 0 });
           gsap.set(introTextElements[1], { opacity: 0 });
 
-          const switchProgress = (progress - 0.25) / 0.7;
+          const switchProgress = (progress - PHASE1_END) / (PHASE2_END - PHASE1_END);
           const viewportHeight = window.innerHeight;
           const titlesContainerHeight = titlesWrapperRef.current.scrollHeight;
-          const startPosition = viewportHeight;
+          const startPosition = viewportHeight - 100;
           const targetPosition = -titlesContainerHeight;
           const totalDistance = startPosition - targetPosition;
           const currentY = startPosition - switchProgress * totalDistance;
@@ -167,12 +189,11 @@ export default function Sectiontwo() {
           imageElements.forEach((img, index) => {
             const imageProgress = getImgProgressState(index, switchProgress);
 
-            const FADE_BUFFER = 0.25;
             let opacity;
             if (imageProgress < 0) {
-              opacity = 1 - Math.min(1, Math.abs(imageProgress) / FADE_BUFFER);
+              opacity = 1 - Math.min(1, Math.abs(imageProgress) / FADE_BUFFER_RATIO);
             } else if (imageProgress > 1) {
-              opacity = 1 - Math.min(1, (imageProgress - 1) / FADE_BUFFER);
+              opacity = 1 - Math.min(1, (imageProgress - 1) / FADE_BUFFER_RATIO);
             } else {
               opacity = 1;
             }
@@ -211,6 +232,15 @@ export default function Sectiontwo() {
             bgImgRef.current.src = spotlightItems[closestIndex].img;
             currentActiveIndex = closestIndex;
           }
+        } else {
+          gsap.set(bgWrapperRef.current, { transform: "scale(1)" });
+          gsap.set(bgImgRef.current, { transform: "scale(1)" });
+
+          const titlesContainerHeight = titlesWrapperRef.current.scrollHeight;
+          gsap.set(titlesWrapperRef.current, {
+            transform: `translateY(${-titlesContainerHeight}px)`,
+          });
+          resetImages();
         }
       },
     });
@@ -258,13 +288,18 @@ export default function Sectiontwo() {
       arcConfig.controlY = h / 2;
     }
 
+    function handleResize() {
+      positionLines();
+      applyTitleSpacing();
+    }
 
     positionLines();
-    window.addEventListener("resize", positionLines);
+    applyTitleSpacing();
+    window.addEventListener("resize", handleResize);
 
     return () => {
       trigger.kill();
-      if (revealTimeoutId) clearTimeout(revealTimeoutId);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
