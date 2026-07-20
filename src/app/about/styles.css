@@ -107,7 +107,7 @@ p {
   flex-direction: column;
   gap: 2rem;
   will-change: transform;
-  font-size: 3rem;
+  font-size: 6rem;
 }
 
 .spotlight-titles h1 {
@@ -151,4 +151,13 @@ p {
 .spotlight-line {
   stroke: rgba(255, 255, 255, 0.6);
   stroke-width: 3;
+}
+
+.aboutme {
+    height: 100vh;
+    background-color: black;
+}
+
+.navbar {
+    position: relative;
 }

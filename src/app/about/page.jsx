@@ -8,6 +8,7 @@ import image1 from "../../../public/aboutME.png";
 import image2 from "../../../public/ascii-magic-3.png";
 import image3 from "../../../public/ascii-magic-4.png";
 import image4 from "../../../public/ascii-magic-6.png";
+import Navbar from "@/components/Navbar/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,7 @@ export default function Sectiontwo() {
   const imgRefs = useRef([]);
   const lineTopRef = useRef(null);
   const lineBottomRef = useRef(null);
+  const navRef = useRef(null)
 
   useEffect(() => {
     const introTextElements = introTextRefs.current;
@@ -60,6 +62,11 @@ export default function Sectiontwo() {
       controlX: 0,
       controlY: 0,
     };
+
+    gsap.set(navRef.current?.querySelectorAll(".link"), {
+      autoAlpha: 0,
+      yPercent: 40,
+    });
 
     function getBezierPosition(t) {
       const x =
@@ -129,6 +136,20 @@ export default function Sectiontwo() {
       });
       isRevealed = false;
     }
+
+    const tl = gsap.timeline()
+
+    tl.to(
+      navRef.current?.querySelectorAll(".link"),
+      {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.9,
+        ease: "power4.out",
+        stagger: 0.1,
+        delay: 0.5
+      },
+    )
 
     const trigger = ScrollTrigger.create({
       trigger: spotlightRef.current,
@@ -304,61 +325,69 @@ export default function Sectiontwo() {
   }, []);
 
   return (
-    <div className="intro spotlight" ref={spotlightRef}>
-      <div className="intro-text-wrapper">
-        <p className="intro-text" ref={(el) => (introTextRefs.current[0] = el)}>
-          About
-        </p>
-        <p className="intro-text" ref={(el) => (introTextRefs.current[1] = el)}>
-          Me
-        </p>
+    <>
+      <div className="navbar">
+        <Navbar ref={navRef}/>
       </div>
 
-      <div className="intro-bg-image spotlight-bg-img" ref={bgWrapperRef}>
-        <img
-          ref={bgImgRef}
-          src={spotlightItems[0].img}
-          alt=""
-          className="object-cover absolute w-full h-full overflow-hidden will-change-transform"
-        />
-      </div>
+      <div className="intro spotlight" ref={spotlightRef}>
+        <div className="intro-text-wrapper">
+          <p className="intro-text" ref={(el) => (introTextRefs.current[0] = el)}>
+            About
+          </p>
+          <p className="intro-text" ref={(el) => (introTextRefs.current[1] = el)}>
+            Me
+          </p>
+        </div>
 
-      <div className="spotlight-titles-container" ref={titlesContainerRef}>
-        <div className="spotlight-titles" ref={titlesWrapperRef}>
+        <div className="intro-bg-image spotlight-bg-img" ref={bgWrapperRef}>
+          <img
+            ref={bgImgRef}
+            src={spotlightItems[0].img}
+            alt=""
+            className="object-cover absolute w-full h-full overflow-hidden will-change-transform"
+          />
+        </div>
+
+        <div className="spotlight-titles-container" ref={titlesContainerRef}>
+          <div className="spotlight-titles" ref={titlesWrapperRef}>
+            {spotlightItems.map((item, index) => (
+              <h1
+                key={item.name}
+                ref={(el) => (titleRefs.current[index] = el)}
+                className={index === 0 ? "is-active" : ""}
+              >
+                {item.name}
+              </h1>
+            ))}
+          </div>
+        </div>
+
+        <div className="spotlight-lines-wrapper" ref={linesWrapperRef}>
+          <svg className="spotlight-lines" width="100%" height="100%">
+            <line ref={lineTopRef} className="spotlight-line" />
+            <line ref={lineBottomRef} className="spotlight-line" />
+          </svg>
+        </div>
+
+        <div className="spotlight-images">
           {spotlightItems.map((item, index) => (
-            <h1
+            <div
+              className="spotlight-img"
               key={item.name}
-              ref={(el) => (titleRefs.current[index] = el)}
-              className={index === 0 ? "is-active" : ""}
+              ref={(el) => (imgRefs.current[index] = el)}
             >
-              {item.name}
-            </h1>
+              <img src={item.img} alt="" />
+            </div>
           ))}
+        </div>
+
+        <div className="spotlight-header" ref={headerRef}>
+          <p>My Interests</p>
         </div>
       </div>
 
-      <div className="spotlight-lines-wrapper" ref={linesWrapperRef}>
-        <svg className="spotlight-lines" width="100%" height="100%">
-          <line ref={lineTopRef} className="spotlight-line" />
-          <line ref={lineBottomRef} className="spotlight-line" />
-        </svg>
-      </div>
-
-      <div className="spotlight-images">
-        {spotlightItems.map((item, index) => (
-          <div
-            className="spotlight-img"
-            key={item.name}
-            ref={(el) => (imgRefs.current[index] = el)}
-          >
-            <img src={item.img} alt="" />
-          </div>
-        ))}
-      </div>
-
-      <div className="spotlight-header" ref={headerRef}>
-        <p>My Interests</p>
-      </div>
-    </div>
+      <div className="aboutme"></div>
+    </>
   );
 }
