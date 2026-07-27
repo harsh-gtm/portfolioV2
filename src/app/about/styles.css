@@ -154,10 +154,111 @@ p {
 }
 
 .aboutme {
-    height: 100vh;
+    height: 600vh;
     background-color: black;
 }
 
 .navbar {
     position: relative;
+}
+
+.aboutme-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 2rem;
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.aboutme-nav p {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.about-text {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.text-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4rem;
+    width: 100%;
+}
+
+.text-block p {
+    flex: 1;
+    max-width: 380px;
+    font-size: 1.1rem;
+    font-weight: 450;
+    letter-spacing: -0.025rem;
+    line-height: 1.5;
+}
+
+.text-block p .word {
+    will-change: transform;
+}
+
+.scroll-indicator {
+    position: absolute;
+    width: 10rem;
+    height: 0.1rem;
+    top: 2rem;
+    right: 2rem;
+    background-color: #2f2f2f;
+}
+
+.scroll-indicator::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    transform-origin: left;
+    transform: scaleX(var(--progress, 0));
+    will-change: transform;
+}
+
+
+@media (max-width: 1000px) {
+	.aboutme-nav {
+	    flex-direction: column-reverse;
+	}
+
+	.about-text {
+	    top: 20rem;
+		flex-direction: column;
+	}
+
+	.text-block {
+        font-size: 1.25rem;
+	}
 }

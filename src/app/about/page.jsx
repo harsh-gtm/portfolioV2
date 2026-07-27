@@ -33,6 +33,7 @@ export default function Sectiontwo() {
   const lineTopRef = useRef(null);
   const lineBottomRef = useRef(null);
   const navRef = useRef(null)
+  const paragraphRefs = useRef([]);
 
   useEffect(() => {
     const introTextElements = introTextRefs.current;
@@ -318,6 +319,31 @@ export default function Sectiontwo() {
     applyTitleSpacing();
     window.addEventListener("resize", handleResize);
 
+    const words = document.querySelectorAll(".text-block .word");
+    const scrollIndicatorEl = document.querySelector(".scroll-indicator");
+
+    const aboutTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".aboutme",
+            start: "top top",
+            end: "bottom bottom",
+            pin: ".container",
+            pinSpacing: true,
+            scrub: true,
+            onUpdate: (self) => {
+              if (scrollIndicatorEl) {
+                scrollIndicatorEl.style.setProperty("--progress", self.progress);
+              }
+            },
+          },
+        });
+
+        aboutTl.to(words, {
+          opacity: 1,
+          stagger: 0.02,
+          ease: "none",
+        });
+
     return () => {
       trigger.kill();
       window.removeEventListener("resize", handleResize);
@@ -387,7 +413,39 @@ export default function Sectiontwo() {
         </div>
       </div>
 
-      <div className="aboutme"></div>
+      <div className="aboutme">
+        <div className="container">
+          <div className="hero">
+            <nav className="aboutme-nav">
+              <p>Intro</p>
+              <p>Awards</p>
+            </nav>
+            <div className="about-text">
+              <div className="text-block">
+                {[
+                  `Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.`,
+                  `Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.`,
+                  `Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.`
+                ].map((text, pIndex) => (
+                  <p key={pIndex} ref={(el) => (paragraphRefs.current[pIndex] = el)}>
+                    {text.split(" ").map((word, wIndex) => (
+                      <span key={wIndex} className="word" style={{ opacity: 0, display: "inline-block", marginRight: "0.25em" }}>
+                        {word}
+                      </span>
+                    ))}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div className="marquee">
+              <div className="marquee-track"></div>
+            </div>
+
+            <div className="scroll-indicator"></div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
