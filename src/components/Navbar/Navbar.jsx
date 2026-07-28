@@ -7,60 +7,34 @@ import slideInOut from "../PageTransition/PageTransition";
 const Navbar = forwardRef((props, ref) => {
   const router = useTransitionRouter();
 
-  const prefetch = (path) => router.prefetch(path);
+  const handleNavigate = (e, href) => {
+    e.preventDefault();
+
+    router.push(href, {
+      onTransitionReady: () => {
+        setTimeout(() => {
+          slideInOut();
+        }, 0);
+      },
+    });
+  };
 
   return (
     <nav className="navContainer" ref={ref}>
       <div className="home">
         <div className="link">
-          <a
-            onMouseEnter={() => prefetch("/")}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/", { onTransitionReady: slideInOut });
-            }}
-            href="/"
-          >
-            Home
-          </a>
+          <a href="/" onClick={(e) => handleNavigate(e, "/")}>Home</a>
         </div>
       </div>
       <div className="links">
         <div className="link">
-          <a
-            onMouseEnter={() => prefetch("/about")}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/about", { onTransitionReady: slideInOut });
-            }}
-            href="/about"
-          >
-            About Me
-          </a>
+          <a href="/about" onClick={(e) => handleNavigate(e, "/about")}>About Me</a>
         </div>
         <div className="link">
-          <a
-            onMouseEnter={() => prefetch("/projects")}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/projects", { onTransitionReady: slideInOut });
-            }}
-            href="/projects"
-          >
-            Projects
-          </a>
+          <a href="/projects" onClick={(e) => handleNavigate(e, "/projects")}>Projects</a>
         </div>
         <div className="link">
-          <a
-            onMouseEnter={() => prefetch("/blog")}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/blog", { onTransitionReady: slideInOut });
-            }}
-            href="/blog"
-          >
-            Blog
-          </a>
+          <a href="/blog" onClick={(e) => handleNavigate(e, "/blog")}>Blog</a>
         </div>
       </div>
     </nav>

@@ -417,8 +417,21 @@ export default function Sectiontwo() {
         <div className="container">
           <div className="hero">
             <nav className="aboutme-nav">
-              <p>Intro</p>
-              <p>Awards</p>
+
+              <div className="positions-nav">
+                <h1>Positions</h1>
+                <p>- Disent (Frontend Development): 2025 Fall Internship</p>
+                <p>- Somy Technologies (Frontend Development): 2025 Summer Internship</p>
+                <p>- FIRST Robotics (Competed Internationally): 2021-2025</p>
+              </div>
+
+              <div className="awards-nav">
+                <h1>Awards</h1>
+                <p>- Lockheed Martin CyberQuest 1st Place: 2024</p>
+              </div>
+
+              <div className="scroll-indicator"></div>
+
             </nav>
             <div className="about-text">
               <div className="text-block">
@@ -442,7 +455,6 @@ export default function Sectiontwo() {
               <div className="marquee-track"></div>
             </div>
 
-            <div className="scroll-indicator"></div>
           </div>
         </div>
       </div>
