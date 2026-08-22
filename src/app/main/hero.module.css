@@ -1,64 +1,35 @@
-.main {
+.wrapper {
     position: relative;
-    height: 100vh;
+    height: 400vh;
     width: 100vw;
     overscroll-behavior: none;
     overflow: hidden;
 }
 
-.main::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.section {
+    position: relative;
+    height: 100vh;
     width: 100%;
-    height: 50px;
-    background: black;
-    z-index: 5;
-    transform: translateY(40px);
+    overflow: hidden;
 }
 
-.bg,
-.innerLayer,
-.outerLayer {
-    position: absolute;
-    inset: 0;
+.animatedSection {
+    height: 200vh;
+    width: 100vw;
+    overscroll-behavior: none;
     overflow: hidden;
 }
 
 .bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
     z-index: 1;
-    transform: scale(1.03);
-}
-
-.innerLayer {
-    z-index: 2;
-    transform: translate(47px) scale(1.03);
-}
-
-.outerLayer {
-    z-index: 3;
     transform: scale(1.03);
 }
 
 .imageContainer {
     clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
-}
-
-.vignette {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(0, 0, 0, 0) 65%,
-        rgba(0, 0, 0, 0.7) 100%
-    );
-}
-
-.parallax {
-    pointer-events: none;
 }
 
 .preloaderCounter {
@@ -92,58 +63,38 @@
     z-index: 10;
 }
 
-.mainContent {
-    position: absolute;
+.animatedLetters {
+    position: sticky;
     inset: 0;
     pointer-events: none;
-    display: block;
-    z-index: 2;
+    z-index: 21;
 }
 
-.firstName {
-    position: absolute;
-    top: 20vh;
-    left: 10vw;
-    font-size: 250px;
-    font-weight: 400;
-    font-family: "PP Editorial Old";
-    font-weight: lighter;
-    font-style: italic;
-    color: #fff;
-    letter-spacing: -3px;
-    line-height: 1;
-    visibility: hidden;
-}
+/* Letter layers:
+   letterOuter  -> scroll driven position/rotation (scattered -> U)
+   letterChar   -> the actual letters
+*/
 
-.lastName {
+.letterOuter {
     position: absolute;
-    bottom: 30vh; /* 5% from the bottom */
-    right: 5vw; /* 5% from the right */
-    font-size: 250px;
-    text-align: right;
-    font-weight: 400;
-    font-family: "PP Editorial Old";
-    font-weight: lighter;
-    color: #fff;
-    letter-spacing: -3px;
-    line-height: 1;
-    visibility: hidden;
-    transform: translate(0%, 50%);
-}
-
-.scrollIndicator {
-    position: absolute;
-    bottom: 40px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    will-change: transform;
+}
+
+.letterChar {
+    display: block;
+    font-size: clamp(60px, 40vw, 800px);
+    line-height: 1;
     color: #fff;
-    z-index: 10;
-    pointer-events: none;
-    visibility: hidden;
+    white-space: nowrap;
+    font-family: var(--font-moniqa-display);
+}
+.letterCharGreen {
+    position: absolute;
+    inset: 0;
+    color: #0a3d1e;
+    clip-path: inset(100% 0% 0% 0%);
 }
 
 .scrollText {
@@ -153,40 +104,8 @@
     font-family: var(--font-sans);
 }
 
-.arrow {
-    animation: bounce 2s infinite ease-in-out;
-}
-
-@media (max-width: 768px) {
-    .parallax,
-    .innerLayer,
-    .outerLayer,
-    .bg {
-        transform: none !important;
-    }
-
-    .mainContent {
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: max-content;
-        max-width: calc(100vw - 48px);
-        align-items: center;
-    }
-
-    .hi {
-        text-align: center;
-    }
-
-    .navList {
-        align-items: center;
-    }
-
-    .navLabel {
-        text-align: center;
-    }
-
-    .infoCard {
-        display: none;
-    }
+.introSection {
+    height: 100vh;
+    width: 100%;
+    background-color: #0a3d1e;
 }

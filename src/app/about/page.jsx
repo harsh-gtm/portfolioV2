@@ -420,8 +420,8 @@ export default function Sectiontwo() {
 
               <div className="positions-nav">
                 <h1>Positions</h1>
-                <p>- Disent (Frontend Development): 2025 Fall Internship</p>
-                <p>- Somy Technologies (Frontend Development): 2025 Summer Internship</p>
+                <p>- Disent: Frontend Development</p>
+                <p>- Somy Technologies: Frontend Development</p>
                 <p>- FIRST Robotics (Competed Internationally): 2021-2025</p>
               </div>
 

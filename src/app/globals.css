@@ -19,13 +19,24 @@ body {
     background-color: black;
     overscroll-behavior: none;
     color: white;
-    font-family: "PP Editorial Old";
 }
 
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+}
+
+h1 {
+    font-family: var(--font-moniqa-display), sans-serif;
+}
+
+h2 {
+    font-family: var(--font-moniqa-heading), sans-serif;
+}
+
+p {
+    font-family: var(--font-moniqa-paragraph), sans-serif;
 }
 
 a {
