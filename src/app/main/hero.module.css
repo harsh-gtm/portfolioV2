@@ -153,3 +153,80 @@
     stroke-width: 2;
     fill: none;
 }
+
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imageAnimationWrapper {
+    position: relative;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageAnimationSection {
+    width: 100vw;
+    height: 150vh;
+    flex-direction: column;
+}
+
+.imageAnimationRows {
+    position: relative;
+    width: 100vw;
+    margin: 1em 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.card {
+    position: relative;
+    width: 40%;
+    height: 360px;
+    border-radius: 0.75em;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.imageAnimationContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imageAnimationText {
+    margin: 2em 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageAnimationTextLine {
+    position: relative;
+    margin: 0.5em 0;
+    width: max-content;
+    height: 28px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.imageAnimationTextLine p {
+    position: relative;
+    font-size: 24px;
+    transform: translateY(30px);
+}
+
+@media (max-width: 900px) {
+    .card {
+        width: 50%;
+        height: 240px;
+    }
+}

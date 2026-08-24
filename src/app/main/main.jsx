@@ -45,6 +45,10 @@ export default function Hero() {
   const wrapperRef = useRef(null);
   const animatedSecionRef = useRef(null);
 
+  const imageAnimationSectionRef = useRef(null);
+  const rowRefs = useRef([]);
+  const textWrapperRef = useRef(null);
+
   // Section 3: pin -> horizontal pan into a flipped duplicate, with an
   // SVG line drawn in sync that lands at the new (right) panel's center.
   const horizontalPinRef = useRef(null);
@@ -58,6 +62,40 @@ export default function Hero() {
   const updateCounter = () => {
     if (counterRef.current)
       counterRef.current.textContent = Math.floor(progressValue.current.value);
+  };
+
+  const generateRows = () => {
+    const rows = [];
+
+    for (let i = 1; i <= 3; i++) {
+      rows.push(
+        <div
+          className={styles.imageAnimationRows}
+          key={i}
+          ref={(el) => (rowRefs.current[i - 1] = el)}
+        >
+          <div className={clsx(styles.card, styles.cardleft)} data-side="left">
+            <img
+              src={`/row-img-${2 * i - 1}.jpg`}
+              alt=""
+              className={styles.rowImages}
+            />
+          </div>
+          <div
+            className={clsx(styles.card, styles.cardRight)}
+            data-side="right"
+          >
+            <img
+              src={`/row-img-${2 * i}.jpg`}
+              alt=""
+              className={styles.rowImages}
+            />
+          </div>
+        </div>,
+      );
+    }
+
+    return rows;
   };
 
   useEffect(() => {
@@ -311,6 +349,55 @@ export default function Hero() {
         );
     }
 
+    const animateImagesOnScrollSettings = {
+      trigger: imageAnimationSectionRef.current,
+      start: "top 25%",
+      toggleActions: "play reverse play reverse",
+    };
+
+    const leftXValues = [-800, -900, -400];
+    const rightXValues = [800, 900, 400];
+    const leftRotationValues = [-30, -20, -35];
+    const rightRotationValues = [30, 20, 35];
+    const yValues = [100, -150, -400];
+
+    rowRefs.current.forEach((row, index) => {
+      const cardLeft = row.querySelector('[data-side="left"]');
+      const cardRight = row.querySelector('[data-side="right"]');
+
+      gsap.to(cardLeft, {
+        x: leftXValues[index],
+        y: yValues[index],
+        rotate: leftRotationValues[index],
+        scrollTrigger: {
+          trigger: imageAnimationSectionRef.current,
+          start: "top center",
+          end: "150% bottom",
+          scrub: true,
+        },
+      });
+
+      gsap.to(cardRight, {
+        x: rightXValues[index],
+        y: yValues[index],
+        rotate: rightRotationValues[index],
+        scrollTrigger: {
+          trigger: imageAnimationSectionRef.current,
+          start: "top center",
+          end: "150% bottom",
+          scrub: true,
+        },
+      });
+    });
+
+    gsap.to(textWrapperRef.current.querySelectorAll("p"), {
+      y: 0,
+      stagger: 0.1,
+      duration: 0.5,
+      ease: "power1.out",
+      scrollTrigger: animateImagesOnScrollSettings,
+    });
+
     return () => {
       gsap.killTweensOf("*");
       ScrollTrigger.getAll().forEach((st) => st.kill());
@@ -444,8 +531,26 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className={styles.section}>
-        <div className={styles.section}></div>
+      <div className={styles.imageAnimationWrapper}>
+        <div
+          className={styles.imageAnimationSection}
+          ref={imageAnimationSectionRef}
+        >
+          <div className={styles.imageAnimationContent}>
+            <div className={styles.imageAnimationText} ref={textWrapperRef}>
+              <div className={styles.imageAnimationTextLine}>
+                <p>My Interests:</p>
+              </div>
+              <div className={styles.imageAnimationTextLine}>
+                <p>ML, Quant Dev, and Frontend Dev</p>
+              </div>
+              <div className={styles.imageAnimationTextLine}>
+                <p>My projects and technical write-ups on these topics</p>
+              </div>
+            </div>
+          </div>
+          {generateRows()}
+        </div>
       </div>
     </div>
   );
