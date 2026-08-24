@@ -23,8 +23,8 @@ const LETTERS = [
 const LETTER_GAP = 40; // px of room between letters in the starting position of the word
 
 const U_SPREAD = 18; // vw between each letter's final x
-const U_DEPTH = 45; // vh — how far R sags below the H's
-const U_DROP = 38; // vh — overall group drop as it breaks apart
+const U_DEPTH = 35; // vh — how far R sags below the H's
+const U_DROP = 45; // vh — overall group drop as it breaks apart
 const U_TILT = 5; // deg outward lean at the ends
 
 function getFinalTransform(index) {
@@ -44,6 +44,12 @@ export default function Hero() {
   const scrollIndicatorRef = useRef(null);
   const wrapperRef = useRef(null);
   const animatedSecionRef = useRef(null);
+
+  // Section 3: pin -> horizontal pan into a flipped duplicate, with an
+  // SVG line drawn in sync that lands at the new (right) panel's center.
+  const horizontalPinRef = useRef(null);
+  const horizontalTrackRef = useRef(null);
+  const horizontalLineRef = useRef(null);
 
   const outerRefs = useRef([]);
   const idleRefs = useRef([]);
@@ -246,7 +252,6 @@ export default function Hero() {
         start: "top top",
         end: "+=150%",
         scrub: 0.6,
-        markers: true,
       },
     });
 
@@ -266,7 +271,6 @@ export default function Hero() {
       );
     });
 
-    // R: white -> green, revealed bottom to top, finishing as scroll ends
     if (rGreenRef.current) {
       scrollTl.fromTo(
         rGreenRef.current,
@@ -274,6 +278,37 @@ export default function Hero() {
         { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "none" },
         0.4,
       );
+    }
+
+    if (
+      horizontalPinRef.current &&
+      horizontalTrackRef.current &&
+      horizontalLineRef.current
+    ) {
+      gsap.set(horizontalTrackRef.current, { xPercent: 0 });
+      gsap.set(horizontalLineRef.current, { attr: { x2: 0 } });
+
+      const horizontalTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: horizontalPinRef.current,
+          start: "top top",
+          end: "+=200%",
+          scrub: 1,
+          pin: true,
+        },
+      });
+
+      horizontalTl
+        .to(
+          horizontalTrackRef.current,
+          { xPercent: -50, ease: "none", duration: 1 },
+          0,
+        )
+        .to(
+          horizontalLineRef.current,
+          { attr: { x2: 50 }, ease: "none", duration: 1 },
+          0,
+        );
     }
 
     return () => {
@@ -355,8 +390,58 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className={styles.section}>
-        <div className={styles.introSection}></div>
+      {/* Section 3 */}
+      <div className={styles.horizontalPin} ref={horizontalPinRef}>
+        <div className={styles.horizontalViewport}>
+          <svg
+            className={styles.horizontalLineSvg}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <line
+              ref={horizontalLineRef}
+              x1="0"
+              y1="50"
+              x2="0"
+              y2="50"
+              vectorEffect="non-scaling-stroke"
+              className={styles.horizontalLine}
+            />
+          </svg>
+
+          <div className={styles.horizontalTrack} ref={horizontalTrackRef}>
+            {/* Panel A */}
+            <div className={styles.horizontalPanel}>
+              <div className={clsx(styles.bg, styles.imageContainer)}>
+                <Image
+                  src={bgImage}
+                  fill
+                  placeholder="blur"
+                  alt=""
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                />
+              </div>
+            </div>
+
+            {/* Panel B */}
+            <div className={styles.horizontalPanel}>
+              <div className={clsx(styles.bg, styles.imageContainer)}>
+                <Image
+                  src={bgImage}
+                  fill
+                  placeholder="blur"
+                  alt=""
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    transform: "scaleX(-1)",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className={styles.section}>
