@@ -1,26 +1,24 @@
-.navContainer {
+.navbar {
     position: absolute;
     top: 30px;
     left: 1vw;
     right: 1vw;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
 }
 
-.home,
-.links {
+.navbar-items {
     display: contents;
 }
 
-.link {
+.navbar-item {
     display: flex;
     justify-content: center;
-    visibility: hidden;
 }
 
-.link a {
+.navbar-item a {
     position: relative;
     text-decoration: none;
     color: white;
@@ -28,7 +26,7 @@
     font-family: var(--font-moniqa-paragraph);
 }
 
-.link a::after {
+.navbar-item a::after {
     content: "";
     position: absolute;
     left: 0;
@@ -36,12 +34,11 @@
     width: 100%;
     height: 2px;
     background: white;
-
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.link a:hover::after {
+.navbar-item a:hover::after {
     transform: scaleX(1);
 }

@@ -1,7 +1,8 @@
 import LenisProvider from "@/components/LenisProvider";
 import "./globals.css";
-import { ViewTransitions } from "next-view-transitions";
+import TransitionProvider from "./providers/TransitionProvider";
 import localFont from "next/font/local";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata = {
   title: "HG",
@@ -28,15 +29,16 @@ export const moniqaParagraph = localFont({
 
 export default function RootLayout({ children }) {
   return (
-    <ViewTransitions>
-      <html
-        lang="en"
-        className={`${moniqaDisplay.variable} ${moniqaHeading.variable} ${moniqaParagraph.variable}`}
-      >
-        <body>
+    <html
+      lang="en"
+      className={`${moniqaDisplay.variable} ${moniqaHeading.variable} ${moniqaParagraph.variable}`}
+    >
+      <body>
+        <TransitionProvider>
+          <Navbar />
           <LenisProvider>{children}</LenisProvider>
-        </body>
-      </html>
-    </ViewTransitions>
+        </TransitionProvider>
+      </body>
+    </html>
   );
 }

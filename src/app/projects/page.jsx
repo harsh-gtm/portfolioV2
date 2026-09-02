@@ -1,82 +1,63 @@
 "use client";
 
-import { RGBA_ASTC_10x5_Format } from "three";
 import styles from "./style.module.css";
-import * as THREE from "three";
-import { texture } from "three/src/nodes/accessors/TextureNode";
 
-export default function Sectiontwo() {
-  const initScene = () => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000,
-    );
+const SECTIONS = [
+  {
+    label: "Finished",
+    projects: [
+      { title: "Latent Space", color: "#8FA687" },
+      { title: "Signal Path", color: "#C98374" },
+      { title: "Field Notes", color: "#7C93A8" },
+      { title: "Paper Cuts", color: "#D4A657" },
+      { title: "Low Orbit", color: "#8B6F9E" },
+      { title: "Nightshift Radio", color: "#6E7B8B" },
+    ],
+  },
+  {
+    label: "Work in progress",
+    projects: [
+      { title: "Glasswing", color: "#C98374" },
+      { title: "Continuum", color: "#8FA687" },
+      { title: "Driftwood", color: "#D4A657" },
+    ],
+  },
+  {
+    label: "Planned",
+    projects: [
+      { title: "Marrow", color: "#7C93A8" },
+      { title: "Terra Nova", color: "#8B6F9E" },
+      { title: "Halcyon", color: "#6E7B8B" },
+      { title: "Undertow", color: "#C98374" },
+    ],
+  },
+];
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas: document.querySelector("canvas"),
-      antialias: true,
-      powerPreference: "high-performance",
-    });
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000);
-
-    const parentWidth = 20;
-    const parentHeight = 75;
-    const curvature = 35;
-
-    const segmentsX = 200;
-    const segmentsY = 200;
-
-    const parentGeometry = new THREE.PlaneGeometry(
-      parentWidth,
-      parentHeight,
-      segmentsX,
-      segmentsY,
-    );
-
-    const position = parentGeometry.attributes.position.array;
-
-    for (i = 0; i < position.length; i += 3) {
-      const y = position[i + 1];
-      const distanceFromCenter = Math.abs(y / (parentHeight / 2));
-
-      position[i + 2] = Math.pow(distanceFromCenter, 2) * curvature;
-    }
-
-    parentGeometry.computeVertexNormals();
-
-    const totalSlides = 7;
-    const slideHeight = 15;
-    const gap = 0.5;
-    const cycleHeigh = totalSlides * (slideHeight + gap);
-
-    const textureCanvas = document.createElement("canvas");
-    const ctx = textureCanvas.getContext("2d", {
-      alpha: false,
-      willReadFrequently: false,
-    });
-
-    textureCanvas.width = 2048;
-    textureCanvas.height = 8192;
-  };
-
+export default function ProjectsPage() {
   return (
-    <div className={styles.body}>
-      <footer>
-        <p>Expirament 0104</p>
-        <p>2026</p>
-      </footer>
-      <div className={styles.sliderWrapper}>
-        <canvas></canvas>
-      </div>
+    <div className={styles.page}>
+      <h1 className={styles.heading}>Projects.</h1>
 
-      <div className={styles.overlay}>
-        <p></p>
+      <div className={styles.sections}>
+        {SECTIONS.map((section) => (
+          <section className={styles.section} key={section.label}>
+            <div className={styles.sectionLabelCol}>
+              <h2 className={styles.sectionLabel}>{section.label}</h2>
+            </div>
+
+            <div className={styles.grid}>
+              {section.projects.map((project) => (
+                <div className={styles.card} key={project.title}>
+                  <div
+                    className={styles.thumb}
+                    style={{ backgroundColor: project.color }}
+                  />
+                  <p className={styles.cardTitle}>{project.title}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   );

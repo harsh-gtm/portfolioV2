@@ -1,44 +1,23 @@
-"use client";
-import React, { forwardRef } from "react";
 import "./Navbar.css";
-import { useTransitionRouter } from "next-view-transitions";
-import slideInOut from "../PageTransition/PageTransition";
 
-const Navbar = forwardRef((props, ref) => {
-  const router = useTransitionRouter();
+import Link from "next/link";
 
-  const handleNavigate = (e, href) => {
-    e.preventDefault();
-
-    router.push(href, {
-      onTransitionReady: () => {
-        setTimeout(() => {
-          slideInOut();
-        }, 0);
-      },
-    });
-  };
-
+const NavBar = () => {
   return (
-    <nav className="navContainer" ref={ref}>
-      <div className="home">
-        <div className="link">
-          <a href="/" onClick={(e) => handleNavigate(e, "/")}>Home</a>
+    <nav className="navbar">
+      <div className="navbar-items">
+        <div className="navbar-item">
+          <Link href="/">Home</Link>
         </div>
-      </div>
-      <div className="links">
-        <div className="link">
-          <a href="/about" onClick={(e) => handleNavigate(e, "/about")}>About Me</a>
+        <div className="navbar-item">
+          <Link href="/about">About Me</Link>
         </div>
-        <div className="link">
-          <a href="/projects" onClick={(e) => handleNavigate(e, "/projects")}>Projects</a>
-        </div>
-        <div className="link">
-          <a href="/blog" onClick={(e) => handleNavigate(e, "/blog")}>Blog</a>
+        <div className="navbar-item">
+          <Link href="/projects">Projects</Link>
         </div>
       </div>
     </nav>
   );
-});
+};
 
-export default Navbar;
+export default NavBar;

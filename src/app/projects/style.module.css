@@ -1,54 +1,110 @@
-.body {
-    height: 100vh;
-    width: 100%;
-    background-color: black;
+.page {
+    --ink: white;
+    --muted: #8b8b93;
+    --line: #e2e2e6;
+    --bg: #16161a;
+
+    background: var(--bg);
+    color: var(--ink);
+    padding: 7rem 4rem 8rem;
+    font-family: var(--font-moniqa-display);
 }
 
-.overlay,
-.body p {
-    font-size: 13px;
+.heading {
+    text-align: center;
+    font-size: 2.75rem;
     font-weight: 400;
-    line-height: 1.5;
-    opacity: 0.5;
+    letter-spacing: -0.01em;
+    margin: 0 0 5.5rem;
 }
 
-.body footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    padding: 2em;
+.sections {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 2;
+    flex-direction: column;
 }
 
-.sliderWrapper {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+.section {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-top: 1px solid var(--line);
 }
 
-.sliderWrapper canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.section:last-child {
+    border-bottom: 1px solid var(--line);
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: black;
-    background-color: radial-graident(
-        circle,
-        rgba(0, 0, 0, 0) 75% rgba(0, 0, 0, 0.5) 100%
-    );
-    z-index: 1;
+.sectionLabelCol {
+    position: sticky;
+    top: 3rem;
+    align-self: start;
+}
+
+.sectionLabel {
+    font-family: var(--font-moniqa-paragraph);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.thumb {
+    aspect-ratio: 4 / 3;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease;
+}
+
+.card:hover .thumb {
+    transform: translateY(-2px);
+}
+
+.cardTitle {
+    font-size: 1rem;
+    margin: 0.9rem 0 0;
+}
+
+@media (max-width: 860px) {
+    .page {
+        padding: 4.5rem 1.5rem 6rem;
+    }
+
+    .heading {
+        font-size: 2.1rem;
+        margin-bottom: 3rem;
+    }
+
+    .section {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .sectionLabelCol {
+        position: static;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
 }
